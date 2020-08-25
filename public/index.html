@@ -8,6 +8,8 @@
   <body>
     <h1>Chat app - sockets</h1>
 
+    <div id="messages"></div>
+
     <form id="message-form">
       <label for="msg">Message:</label>
       <input
@@ -21,6 +23,21 @@
 
     <button id="locationBtn">Share your location</button>
 
+    <script id="message-template" type="text/html">
+      <div>
+        <p>{{createdAt}} - {{message}}</p>
+      </div>
+    </script>
+
+    <script id="location-message-template" type="text/html">
+      <div>
+        <p>{{createdAt}} - <a href="{{url}}" target="_blank">Here's my location!</a></p>
+      </div>
+    </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/4.0.1/mustache.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.27.0/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qs/6.9.4/qs.min.js"></script>
     <script src="./socket.io/socket.io.js"></script>
     <script src="./js/chat.js"></script>
   </body>

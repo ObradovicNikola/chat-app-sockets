@@ -37,16 +37,20 @@ io.on("connection", (socket) => {
 
     socket.join(user.room);
 
-    socket.emit("message", generateMessage('Admin', `Welcome ${user.username}!`));
+    socket.emit(
+      "message",
+      generateMessage("Admin", `Welcome ${user.username}!`)
+    );
     socket.broadcast
       .to(user.room)
       .emit(
         "message",
-        generateMessage(
-          'Admin',
-          `${user.username} has entered the arena!`
-        )
+        generateMessage("Admin", `${user.username} has entered the arena!`)
       );
+    io.to(user.room).emit("roomData", {
+      room: user.room,
+      users: getUsersInRoom(user.room),
+    });
 
     callback();
   });
@@ -79,11 +83,16 @@ io.on("connection", (socket) => {
   socket.on("disconnect", () => {
     const user = removeUser(socket.id);
 
-    if (user)
+    if (user) {
       io.to(user.room).emit(
         "message",
-        generateMessage('Admin', `${user.username} has run away!`)
+        generateMessage("Admin", `${user.username} has run away!`)
       );
+      io.to(user.room).emit("roomData", {
+        room: user.room,
+        users: getUsersInRoom(user.room),
+      });
+    }
   });
 });
 

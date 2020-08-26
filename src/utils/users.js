@@ -12,6 +12,12 @@ const addUser = ({ id, username, room }) => {
     };
   }
 
+  if(username === 'admin'){
+    return {
+      error: "Haha! You are not admin!"
+    }
+  }
+
   // check for existing user
   const existingUser = users.find((user) => {
     return user.room === room && user.username === username;

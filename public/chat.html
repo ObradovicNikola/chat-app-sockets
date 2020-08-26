@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="./css/styles.min.css" />
   </head>
   <body>
-     <div class="chat">
+    <div class="chat">
       <div class="chat__sidebar">
         <p>sidebar</p>
       </div>
@@ -22,6 +22,8 @@
               name="message"
               type="text"
               placeholder="Type your message here..."
+              required
+              autocomplete="off"
             />
             <button>Send</button>
           </form>
@@ -33,7 +35,7 @@
     <script id="message-template" type="text/html">
       <div class="message">
         <p>
-          <span class="message__name">Some user name</span>
+          <span class="message__name">{{username}}</span>
           <span class="message__meta">{{createdAt}}</span>
         </p>
         <p>{{message}}</p>
@@ -43,7 +45,7 @@
     <script id="location-message-template" type="text/html">
       <div class="message">
       <p>
-        <span class="message__name">Some user name</span>
+        <span class="message__name">{{username}}</span>
         <span class="message__meta">{{createdAt}}</span>
       </p>
       <p><a href="{{url}}" target="_blank">Here's my location!</a></p>

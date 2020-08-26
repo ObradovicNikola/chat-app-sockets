@@ -37,12 +37,15 @@ io.on("connection", (socket) => {
 
     socket.join(user.room);
 
-    socket.emit("message", generateMessage(`Welcome ${user.username}!`));
+    socket.emit("message", generateMessage('Admin', `Welcome ${user.username}!`));
     socket.broadcast
       .to(user.room)
       .emit(
         "message",
-        generateMessage(`${user.username} has entered the arena!`)
+        generateMessage(
+          'Admin',
+          `${user.username} has entered the arena!`
+        )
       );
 
     callback();
@@ -55,14 +58,18 @@ io.on("connection", (socket) => {
       return callback("Profanity is not allowed!");
     }
 
-    io.to("srbija").emit("message", generateMessage(message));
+    const user = getUser(socket.id);
+
+    io.to(user.room).emit("message", generateMessage(user.username, message));
     callback("Delivered!");
   });
 
   socket.on("sendLocation", (coords, callback) => {
-    io.emit(
+    const user = getUser(socket.id);
+    io.to(user.room).emit(
       "locationMessage",
       generateLocationMessage(
+        user.username,
         `https://google.com/maps?q=${coords.latitude},${coords.longitude}`
       )
     );
@@ -75,7 +82,7 @@ io.on("connection", (socket) => {
     if (user)
       io.to(user.room).emit(
         "message",
-        generateMessage(`${user.username} has run away!`)
+        generateMessage('Admin', `${user.username} has run away!`)
       );
   });
 });

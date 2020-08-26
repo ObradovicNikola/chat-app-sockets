@@ -21,15 +21,17 @@ const { username, room } = Qs.parse(location.search, {
 socket.on("message", (msg) => {
   console.log(msg);
   const html = Mustache.render(messageTemplate, {
+    username: msg.username,
     message: msg.text,
     createdAt: moment(msg.createdAt).format("HH:mm"),
   });
   $messages.insertAdjacentHTML("beforeend", html);
 });
 
-socket.on("locationMessage", ({ url, createdAt }) => {
+socket.on("locationMessage", ({ username, url, createdAt }) => {
   console.log(url);
   const html = Mustache.render(locationMessageTemplate, {
+    username,
     url,
     createdAt: moment(createdAt).format("HH:mm"),
   });
